@@ -3,15 +3,15 @@ const mongoose = require('mongoose')
 
 
 const newCarSchema = new mongoose.Schema({
-    user_id:{
-        type: mongoose.Schema.Types.ObjectId,
-        required: false,
-        ref: 'User'
-    },
-    cloudinary_id: String,
+    // user_id:{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: false,
+    //     ref: 'User'
+    // },
+    //cloudinary_id: String,
     owner_passport:{
         type: String,
-        required: [true, 'pls insert car license id']
+        required: [true, 'pls insert passport']
     },
     attestation_letter_image: {
         // data: Buffer,
