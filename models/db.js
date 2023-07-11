@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
 const colors = require('colors')
 
+require('dotenv')
+
  const connectDb = async()=>{
     try {
-      const connect =  await mongoose.connect('mongodb://127.0.0.1:27017/License-reg-project', {
+      const connect =  await mongoose.connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,
         useUnifiedTopology: true
       })
