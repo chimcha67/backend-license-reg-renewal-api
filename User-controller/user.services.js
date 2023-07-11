@@ -2,7 +2,7 @@ const validator = require("./validator")
 const { registerSchema, loginSchema , profileSchema} = require("./validator")
 const userService = require('./user-controller')
 const { request } = require("express")
-const profileservice = require('./owner-profile-controller')
+const profileservice = require('./owner-info-controller')
 
 
 const registration = async(req, res, next)=>{

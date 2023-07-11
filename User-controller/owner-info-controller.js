@@ -11,7 +11,7 @@ const controller = express()
 const createProfile = async(req, res, next)=>{
     try {
         //console.log(Date.now())
-        const { first_name,last_name,identity_number,date_of_birth, age, email, gender, address}= req.body
+        const { first_name,last_name,identity_number,date_of_birth, email, gender, address}= req.body
     
 
         // if( !first_name || !last_name || !identity_number || !date_of_birth || !email || !gender || !address){
@@ -25,20 +25,20 @@ const createProfile = async(req, res, next)=>{
         // check if user withsame id num exist exist
 
 
-        // const existingUser = await ownerInfo.findOne({identity_number})
-        // if(existingUser){
-        //     return res.status(400).json({
-        //         status: false,
-        //         message: 'identity number already exist pls verify and try again'
-        // })
-        // }
-        // else if(!email.includes("@")){
-        //     return res.status(400).json({
-        //         status: false,
-        //         message: 'pls provide a valid email',
-        //         // reason: validators[reason].reason
-        //     })
-        // }
+        const existingUser = await ownerInfo.findOne({identity_number})
+        if(existingUser){
+            return res.status(400).json({
+                status: false,
+                message: 'identity number already exist pls verify and try again'
+        })
+        }
+        else if(!email.includes("@")){
+            return res.status(400).json({
+                status: false,
+                message: 'pls provide a valid email',
+                // reason: validators[reason].reason
+            })
+        }
 
         // creating profil
          //let {image} = req.body
@@ -54,7 +54,6 @@ const createProfile = async(req, res, next)=>{
                 first_name: first_name,
                 last_name:last_name,
                 date_of_birth: date_of_birth,
-                age: age,
                 email: email,
                 gender: gender,
                 address:address,

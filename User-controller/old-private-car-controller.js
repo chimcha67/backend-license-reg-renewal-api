@@ -143,23 +143,32 @@ const editCredentials = async (req, res) => {
     const filePath2= path.resolve(fileName2)
     const filePath3= path.resolve(fileName3)
     
+    const pathArrr = [filePath,filePath2,filePath3]
     
+      pathArrr.map(arr=>{
+         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+            if (err) {
+
+                return next(CustomErrorHandler.serverError(err.message));
+            }
+        });
+      })
    
-     await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
+  //    await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
 
     const { licence_id, roadworthiness_id}= req.body
 
@@ -193,23 +202,32 @@ const editCredentials = async (req, res) => {
     const filePath2= path.resolve(fileName2)
     const filePath3= path.resolve(fileName3)
     
+    const pathArrr = [filePath,filePath2,filePath3]
     
+      pathArrr.map(arr=>{
+         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+            if (err) {
+
+                return next(CustomErrorHandler.serverError(err.message));
+            }
+        });
+      })
    
-     await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
+  //    await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
 
       let file = await oldPrivateCar.findByIdAndRemove(id);
       // Delete image from cloudinary

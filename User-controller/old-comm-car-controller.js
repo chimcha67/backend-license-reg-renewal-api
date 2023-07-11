@@ -184,33 +184,43 @@ const editCredentials = async (req, res) => {
     const filePath3= path.resolve(fileName3)
     const filePath4= path.resolve(fileName4)
     const filePath5= path.resolve(fileName5)
+
+    const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5]
     
+    pathArrr.map(arr=>{
+       fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+          if (err) {
+
+              return next(CustomErrorHandler.serverError(err.message));
+          }
+      });
+    }) 
    
-     await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath4,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath5, (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
+  //    await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath4,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath5, (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
 
       const { licence_id, roadworthiness_id}= req.body
 
@@ -263,32 +273,42 @@ const editCredentials = async (req, res) => {
     const filePath4= path.resolve(fileName4)
     const filePath5= path.resolve(fileName5)
     
+    const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5]
+    
+      pathArrr.map(arr=>{
+         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+            if (err) {
+
+                return next(CustomErrorHandler.serverError(err.message));
+            }
+        });
+      })
    
-     await fs.unlinkSync(filePath,filePath2,filePath3,filePath4,filePath5,filePath6,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath4,  (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
-  await fs.unlinkSync(filePath5, (err) => { //rootfolder/upload/filename
-      if (err) {
-          return next(CustomErrorHandler.serverError(err.message));
-      }
-  });
+  //    await fs.unlinkSync(filePath,filePath2,filePath3,filePath4,filePath5,filePath6,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath4,  (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
+  // await fs.unlinkSync(filePath5, (err) => { //rootfolder/upload/filename
+  //     if (err) {
+  //         return next(CustomErrorHandler.serverError(err.message));
+  //     }
+  // });
   
       
     // Find user by id
