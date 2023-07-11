@@ -106,7 +106,7 @@ const getOwnerProfile = async(req, res, next)=>{
     }
     res.status(200).json({
         success: true,
-        message: 'users fetched successfully',
+        message: 'user profile fetched successfully',
         userProfile: userProfile
     })
     } catch (error) {

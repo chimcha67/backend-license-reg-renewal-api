@@ -21,18 +21,21 @@ const loginSchema = Joi.object({
 })
 
 
-const updateSchema = Joi.object({
-    name: Joi.string().required(),
+const profileSchema = Joi.object({
+    first_name: Joi.string().required(),
+    last_name: Joi.string().required(),
+    identity_number: Joi.number().min(10).required(),
     age: Joi.number().min(10).required(),
     email: Joi.string().email().required(),
     gender: Joi.string().valid('M','F').required(),
-    //password:Joi.string().min(8).required()
+    address:Joi.string().min(8).required()
 
 })
+
 
 
 module.exports = {
     registerSchema,
     loginSchema,
-    updateSchema
+    profileSchema
 }

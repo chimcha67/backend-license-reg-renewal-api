@@ -26,7 +26,7 @@ const newCarReg = async(req, res, file)=>{
         //const result = await cloudinary.uploader.upload(req.file.path,{width:500,heigth:500});
         
         const credentials = await newCar.create({
-            //user_id:req.user.id,
+            user_id:req.user.id,
             //cloudinary_id: result.public_id,
             licence_id: licence_id,
             owner_passport:req.files.image[0].path,

@@ -3,11 +3,11 @@ const mongoose = require('mongoose')
 
 
 const newCarSchema = new mongoose.Schema({
-    // user_id:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: false,
-    //     ref: 'User'
-    // },
+    user_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'User'
+    },
     //cloudinary_id: String,
     owner_passport:{
         type: String,
