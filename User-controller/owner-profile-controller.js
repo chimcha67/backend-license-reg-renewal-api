@@ -54,7 +54,6 @@ const createProfile = async(req, res, next)=>{
                 first_name: first_name,
                 last_name:last_name,
                 date_of_birth: date_of_birth,
-                age: age,
                 email: email,
                 gender: gender,
                 address:address,
