@@ -96,7 +96,7 @@ const getOwnerProfile = async(req, res, next)=>{
         //     message:'invalide page'
         // })
         // const usePage = page-1
-    const userProfile = await ownerInfo.find()
+    const userProfile = await ownerInfo.find({user_id:req.user.id})
     if(!userProfile){
         res.status(404).json({
             success: false,
@@ -130,11 +130,11 @@ const getSingleUserProfile = async(req, res, next)=>{
         // throw new Error('User not found')
     }
 
-    // if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
-    //     return res.status(403).json({
-    //         message: 'user cannot get another user details'
-    //     })
-    // }
+    if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
+        return res.status(403).json({
+            message: 'user cannot get another user details'
+        })
+    }
 
     res.status(200).json({
         status: true,
@@ -156,15 +156,16 @@ const updateUserProfile = async(req, res, next)=>{
         res.status(404)
         // throw new Error('User not found')
     }
+    if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
+        return res.status(403).json({
+            message: 'user cannot edit another users profile'
+        })
+    }
     await cloudinary.uploader.destroy(file.cloudinary_id);
         // Upload new image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
 
-    // if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
-    //     return res.status(403).json({
-    //         message: 'user cannot edit another users profile'
-    //     })
-    // }
+   
     const { first_name,last_name,identity_number,dob,state, local_government, age, email, gender, address}= req.body
 
     const newProfile = {
@@ -198,11 +199,11 @@ const deleteUserProfile = async(req, res, next)=>{
     if(id.length>24 || id.length<24) return res.status(400)
     const userProfile = await ownerInfo.findById(id)
 
-    // if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
-    //     return res.status(403).json({
-    //         message: 'invalid id, user cannot delete another users info'
-    //     })
-    // }
+    if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
+        return res.status(403).json({
+            message: 'invalid id, user cannot delete another users info'
+        })
+    }
     await cloudinary.uploader.destroy(user.cloudinary_id);
 
     const userProfileDelete = await ownerInfo.findByIdAndDelete(

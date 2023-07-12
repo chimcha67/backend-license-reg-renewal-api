@@ -13,7 +13,11 @@ const oldCommercialCarSchema = new mongoose.Schema({
     licence_id: String,
    
     roadworthiness_id: String,
-    
+    vin: {
+        // data: Buffer,
+        type: String,
+        required: true
+    },
         
     car_license_image: {
         // data: Buffer,

@@ -37,7 +37,7 @@ Router.post('/login', userService.login )
 
 Router.post('/profile',validateToken, uploader.single('image'), userService.profile)
 Router.get('/getProfile/:id',validateToken, ownerProfile.getSingleUserProfile)
-Router.put('/updateProfile/:id',validateToken, uploader.single('image'), ownerProfile.updateUserProfile)
+Router.put('/updateProfile/:id',validateToken, uploader.single('image'), userService.editProfile)
 Router.delete('/deleteProfile/:id',validateToken, ownerProfile.deleteUserProfile)
 
 
@@ -48,14 +48,14 @@ Router.post('/oldPrivate',validateToken, uploadFile.fields([
     {name:'image'},
     {name:'image'},
     
-]), oldPrivateCarController.renewPrivateCarReg)
+]), userService.oldPrivateCar)
 Router.get('/singlePrivateDoc/:id',validateToken, oldPrivateCarController.getSingleCarCredentials)
 Router.put('/editPrivateDoc/:id',validateToken,uploadFile.fields([
     {name:'image'},
     {name:'image'},
     {name:'image'},
 
-]), oldPrivateCarController.editCredentials)
+]), userService.editOldPrivateCar)
 Router.delete('/delPrivateDoc/:id',validateToken, oldPrivateCarController.deleteCredential)
 
 
@@ -68,7 +68,7 @@ Router.post('/regNewCar',validateToken, uploadFile.fields([
     {name:'image'},
     {name:'image'},
     {name:'image'}
-]), newCarController.newCarReg)
+]), userService.newCar)
 Router.get('/getSingleNewCar/:id',validateToken, newCarController.getSingleCarCredentials)
 Router.put('/editNewCar/:id',validateToken,uploadFile.fields([
     {name:'image'},
@@ -77,7 +77,7 @@ Router.put('/editNewCar/:id',validateToken,uploadFile.fields([
     {name:'image'},
     {name:'image'},
     {name:'image'}
-]), newCarController.editCredentials)
+]), userService.editNewCar)
 Router.delete('/delNewCar/:id',validateToken, newCarController.deleteCredential)
 
 

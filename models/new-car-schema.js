@@ -8,6 +8,16 @@ const newCarSchema = new mongoose.Schema({
         required: false,
         ref: 'User'
     },
+    licence_id:{
+        type: String,
+        required: [true, 'pls insert car license id']
+    },
+
+    vin: {
+        // data: Buffer,
+        type: String,
+        required: true
+    },
     //cloudinary_id: String,
     owner_passport:{
         type: String,
@@ -39,10 +49,7 @@ const newCarSchema = new mongoose.Schema({
         required: true
     },
    
-    licence_id:{
-        type: String,
-        required: [true, 'pls insert car license id']
-    },
+   
     // current_add_proof:{
     //     type: String,
     //     required: [true, 'pls insert car license id']

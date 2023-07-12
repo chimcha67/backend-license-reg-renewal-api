@@ -32,14 +32,7 @@ const createProfile = async(req, res, next)=>{
                 message: 'identity number already exist pls verify and try again'
         })
         }
-        else if(!email.includes("@")){
-            return res.status(400).json({
-                status: false,
-                message: 'pls provide a valid email',
-                // reason: validators[reason].reason
-            })
-        }
-
+     
         // creating profil
          //let {image} = req.body
          //var imgUrl =''

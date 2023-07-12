@@ -18,6 +18,11 @@ const oldPrivateCarSchema = new mongoose.Schema({
         type: String,
         required: [true, 'pls insert car license id']
     },
+    vin: {
+        // data: Buffer,
+        type: String,
+        required: true
+    },
     roadworthiness_image: {
         // data: Buffer,
         type: String,

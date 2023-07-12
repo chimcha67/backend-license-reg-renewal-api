@@ -3,6 +3,8 @@ const uploadFile = require('../middleware/upload')
 const {validateToken} = require('../User-controller/validateUserToken')
 const express = require('express')
 const ownerProfile = require('../User-controller/owner-info-controller')
+const  userService  = require('../User-controller/user.services')
+
 
 
 const Router = express.Router()
@@ -18,7 +20,7 @@ Router.post('/oldCarReg',uploadFile.fields([
     {name:'image'},
     {name:'image'},
     
-]), oldCommercialCarController.renewCommercialCar)
+]), userService.oldCommercialCar)
 Router.get('/allOldCommerDoc', oldCommercialCarController.getAllCarCredentials)
 Router.get('/user/singleCommerDoc/:id', oldCommercialCarController.getSingleCarCredentials)
 Router.put('/user/editOldCommerDoc/:id',uploadFile.fields([
@@ -28,7 +30,7 @@ Router.put('/user/editOldCommerDoc/:id',uploadFile.fields([
     {name:'image'},
     {name:'image'},
     
-]), oldCommercialCarController.editCredentials)
+]), userService.editOldCommercialCar)
 Router.delete('/delOldCommDoc/:id', oldCommercialCarController.deleteCredential)
 
 

@@ -4,6 +4,7 @@ const express = require('express')
  const cloudinary = require('../controllers/cloudinary')
  const path = require('path')
  const fs = require('fs')
+const { oldPrivateCar } = require('./user.services')
 
 
 
@@ -11,16 +12,18 @@ const controller = express()
 
 const newCarReg = async(req, res, file)=>{
     try {
-        const {licence_id}= req.body
+        const {licence_id, vin}= req.body
        
 
-        // if(!owner_passport|| !licence_id|| !attestation_letter_image || !purchase_receipt_image|| !delivery_note_image || !proof_of_ownership_image || !driver_license_image){
-        //     res.status(400).json({
-        //         message: 'all fields are required'
-        //     }
-        //     )
-            
-        // }
+        const checkCarByVin = await newCar.findOne({vin})
+        const checkCarByLicenceId = await newCar.findOne({licence_id})
+
+        if(checkCarByLicenceId || checkCarByVin){
+            return res.status(400).json({
+                status: false,
+                message: 'vin or licence id already exist pls verify and try again'
+        })
+        }
 
         // submitting credentials
         //const result = await cloudinary.uploader.upload(req.file.path,{width:500,heigth:500});
@@ -29,6 +32,7 @@ const newCarReg = async(req, res, file)=>{
             user_id:req.user.id,
             //cloudinary_id: result.public_id,
             licence_id: licence_id,
+            vin:vin,
             owner_passport:req.files.image[0].path,
             attestation_letter_image:req.files.image[1].path,
             purchase_receipt_image:req.files.image[2].path,
@@ -38,14 +42,7 @@ const newCarReg = async(req, res, file)=>{
             
                
             })
-        // const user = await new User ({
-        //     name: name,
-        //     age: age,
-        //     email: email,
-        //     gender: gender,
-        //     password: password
-        // })
-        // await user.save()
+    
         if(!credentials) return res.status(500).json({
             status: false,
             message: 'something went wrong'
@@ -72,7 +69,7 @@ const getAllCarCredentials = async(req, res, next)=>{
         //     message:'invalide page'
         // })
         // const usePage = page-1
-    const allCarDoc = await newCar.find()
+    const allCarDoc = await newCar.find({user_id:req.user.id})
     if(!users){
         res.status(404).json({
             success: false,
@@ -107,11 +104,11 @@ const getSingleCarCredentials = async(req, res, next)=>{
          // throw new Error('User not found')
      }
  
-    //  if(JSON.stringify(singleCarDoc.user_id) !== JSON.stringify(req.user.id)){
-    //      return res.status(403).json({
-    //          message: 'user cannot get another user details'
-    //      })
-    //  }
+     if(JSON.stringify(singleCarDoc.user_id) !== JSON.stringify(req.user.id)){
+         return res.status(403).json({
+             message: 'user cannot get another user details'
+         })
+     }
  
      res.status(200).json({
          status: true,
@@ -126,22 +123,22 @@ const getSingleCarCredentials = async(req, res, next)=>{
 
 const editCredentials = async (req, res) => {
     try {
-      let file = await newCar.findbyId(req.param.id);
+      let id = req.params.id
+      //let file = await newCar.findbyId(id);
       let filesPath;
       if (req.file) {
           filesPath = req.file.path; // We get file from multer
       }
-
-    //     if (req.file) {
-    //       fs.unlink(`${appRoot}/${filePath}`, (err) => { //rootfolder/upload/filename
-    //           if (err) {
-    //               return next(CustomErrorHandler.serverError(err.message));
-    //           }
-    //       });    
-    //   }
-
-      const id = req.params.id
+      console.log(filesPath)
+      
       const files = await newCar.findById(id)
+
+      if(JSON.stringify(files.user_id) !== JSON.stringify(req.user.id)){
+        return res.status(403).json({
+            message: 'user cannot edit another user details'
+        })
+    }
+   
       const fileName = files.owner_passport
         const fileName2 = files.attestation_letter_image
         const fileName3 = files.purchase_receipt_image
@@ -160,7 +157,7 @@ const editCredentials = async (req, res) => {
       const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
     
       pathArrr.map(arr=>{
-         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+         fs.unlink(arr,  (err) => { //rootfolder/upload/filename
             if (err) {
 
                 return next(CustomErrorHandler.serverError(err.message));
@@ -168,42 +165,18 @@ const editCredentials = async (req, res) => {
         });
       })
      
-    // await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath4,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath5, (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath6,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-        const updateDoc = await oldCommercialCar.findByIdAndUpdate(
-          id,
-          {licence_id:req.body.licence_id, image:filesPath},
-           {new:true}
-        )
-      console.log(req.file)
+      const updateDoc = await newCar.findByIdAndUpdate(
+        id,
+        {licence_id:req.body.licence_id,vin:req.body.vin, owner_passport:req.files.image[0].path,
+          attestation_letter_image:req.files.image[1].path,
+          purchase_receipt_image:req.files.image[2].path,
+          delivery_note_image:req.files.image[3].path,
+          proof_of_ownership_image:req.files.image[4].path,
+          driver_license_image:req.files.image[5].path},
+         {new:true}
+      )
+        
+     
 
        
       res.status(200).json(updateDoc);
@@ -218,17 +191,21 @@ const editCredentials = async (req, res) => {
     try {
       const id = req.params.id
       const files = await newCar.findById(id)
-      const fileName = files.owner_passport
-        // files.attestation_letter_image, 
-        // files.purchase_receipt_image, 
-        // files.delivery_note_image, 
-        // files.proof_of_ownership_image, 
-        // files.driver_license_image)
-        const fileName2 = files.attestation_letter_image
-        const fileName3 = files.purchase_receipt_image
-        const fileName4 = files.delivery_note_image
-        const fileName5 = files.proof_of_ownership_image
-        const fileName6 = files.driver_license_image
+
+      if(JSON.stringify(files.user_id) !== JSON.stringify(req.user.id)){
+        return res.status(403).json({
+            message: 'user cannot delete another user details'
+        })
+    }
+    let file = await newCar.findByIdAndRemove(id);
+
+      const fileName = file.owner_passport
+      
+      const fileName2 = file.attestation_letter_image
+      const fileName3 = file.purchase_receipt_image
+      const fileName4 = file.delivery_note_image
+      const fileName5 = file.proof_of_ownership_image
+      const fileName6 = file.driver_license_image
 
 
       const filePath= path.resolve(fileName)
@@ -248,45 +225,9 @@ const editCredentials = async (req, res) => {
         });
       })
      
-    //    await fs.unlinkSync(filePath,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath2,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath3,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath4,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath5, (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
-    // await fs.unlinkSync(filePath6,  (err) => { //rootfolder/upload/filename
-    //     if (err) {
-    //         return next(CustomErrorHandler.serverError(err.message));
-    //     }
-    // });
+    
       // Find user by id
-      let file = await newCar.findByIdAndRemove(id);
-    //   if (req.file) {
-    //     fs.unlink(`${appRoot}/${filePath}`, (err) => { //rootfolder/upload/filename
-    //         if (err) {
-    //             return next(CustomErrorHandler.serverError(err.message));
-    //         }
-    //     });    
-    // }
+ 
    
       res.json({
         message:'deleted successfully',
