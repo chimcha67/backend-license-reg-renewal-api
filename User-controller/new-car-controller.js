@@ -157,7 +157,7 @@ const editCredentials = async (req, res) => {
       const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
     
       pathArrr.map(arr=>{
-         fs.unlink(arr,  (err) => { //rootfolder/upload/filename
+         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
             if (err) {
 
                 return next(CustomErrorHandler.serverError(err.message));
@@ -167,12 +167,7 @@ const editCredentials = async (req, res) => {
      
       const updateDoc = await newCar.findByIdAndUpdate(
         id,
-        {licence_id:req.body.licence_id,vin:req.body.vin, owner_passport:req.files.image[0].path,
-          attestation_letter_image:req.files.image[1].path,
-          purchase_receipt_image:req.files.image[2].path,
-          delivery_note_image:req.files.image[3].path,
-          proof_of_ownership_image:req.files.image[4].path,
-          driver_license_image:req.files.image[5].path},
+        {licence_id:req.body.licence_id,vin:req.body.vin, image:filesPath,},
          {new:true}
       )
         
