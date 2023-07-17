@@ -59,7 +59,7 @@ const createUser = async(req, res, next)=>{
 
         // hash password
         const hashedPassword = await bcrypt.hash(password, 10)
-         const repeatPassword = await bcrypt.hash(password, 10)
+         const repeatPassword = await bcrypt.hash(repeat_password, 10)
          if(repeat_password !== password){
             return res.status(400).json({message: 'password must be thesame'})
          }
@@ -295,7 +295,7 @@ const sendResetMail = async(req,res, next)=>{
 const passwordReset = async(req,res)=>{
     try {
         const id = req.user.id
-        const {email } = req.body
+        const {password, repeat_password } = req.body
          const user = await User.findById(id);
          console.log(user)
          if (!user) return res.status(400).send("invalid link or expired");
@@ -307,9 +307,11 @@ const passwordReset = async(req,res)=>{
         });
         //console.log(token, token.userId==user.id)
         if (!token) return res.status(400).send("Invalid link or expired");
+        const hashedPassword = await bcrypt.hash(password, 10)
+        const repeatPassword = await bcrypt.hash(repeat_password, 10)
         if(token.userId == req.user.id){
-        user.password = req.body.password;
-        user.repeat_password = req.body.repeat_password;
+        user.password = hashedPassword;
+        user.repeat_password = repeatPassword;
         // token.token = undefined
         // token.userId = undefined
         // token.createdAt = undefined

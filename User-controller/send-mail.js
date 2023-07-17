@@ -7,9 +7,9 @@ const sendEmail = async (email, subject, text) => {
         
 
         const transporter = nodemailer.createTransport({
-            //service: 'gmail',
-            host: process.env.HOST,
-            port:   process.env.PORT,
+            service: 'gmail',
+            // host: process.env.HOST,
+            // port:   process.env.PORT,
             //  secure: true,
             // // logger: true,
             // // debug: true,
@@ -18,8 +18,10 @@ const sendEmail = async (email, subject, text) => {
             //     rejectUnauthorized:false
             // },
             auth: {
-                user: process.env.USER,
-                pass:  process.env.PASS,
+                // user: process.env.USER,
+                // pass:  process.env.PASS,
+                   user: 'comfortenock73@gmail.com',
+                   pass: 'cfgdgtfbdoctvfvo',
             },
             // user: 'comfortenock73@gmail.com',
             // pass: 'cfgdgtfbdoctvfvo',
