@@ -4,7 +4,14 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const app = express()
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+const randomstring = require('randomstring')
+
+const Token = require('../models/token-schema')
+const crypto = require('crypto')
+const sendEmail = require('./send-mail')
  require("dotenv").config()
+ 
  //const emailValidator = require('deep-email-validator')
 
 const controller = express()
@@ -243,6 +250,101 @@ const currentUser = async(req,res)=>{
     
 }
 
+const sendResetMail = async(req,res, next)=>{
+    try{
+    const user = await User.findOne({ email: req.body.email });
+        if (!user)
+            return res.status(404).send("user with given email doesn't exist");
+
+        let token = await Token.findOne({ userId: user._id });
+        const resetToken = crypto.randomBytes(32).toString("hex")
+        const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+        if (!token) {
+            token = await Token. create({
+                userId: user._id,
+                token: resetToken,
+            });
+        } 
+        console.log(resetToken, hashedToken)
+        console.log(user._id)
+
+        const link = `${req.protocol}://${req.get('host')}/user/resetPassword/${user._id}/${resetToken}`;
+        console.log(link)
+        try{
+            await sendEmail(user.email, "Password reset", link);
+            res.status(200).json({
+                status: 'success',
+                message:"password reset link sent to your email account",
+                token: resetToken
+        });
+            
+        }catch(error){
+         token.token = undefined
+         await token.save()
+
+        }
+
+    } catch (error) {
+
+        res.status(400).json({msg:error.message});
+        console.log(error);
+    }
+
+} 
+
+const passwordReset = async(req,res)=>{
+    try {
+        const id = req.user.id
+        const {email } = req.body
+         const user = await User.findById(id);
+         console.log(user)
+         if (!user) return res.status(400).send("invalid link or expired");
+
+        const token = await Token.findOne({
+            
+            token: req.params.token,
+            //createdAt:{$gt:Date.now()}
+        });
+        //console.log(token, token.userId==user.id)
+        if (!token) return res.status(400).send("Invalid link or expired");
+        if(token.userId == req.user.id){
+        user.password = req.body.password;
+        user.repeat_password = req.body.repeat_password;
+        // token.token = undefined
+        // token.userId = undefined
+        // token.createdAt = undefined
+
+
+        
+        await user.save();
+        //await token.save();
+
+        //await token.delete();
+
+        //res.status(201).json("password reset sucessfully.");
+        
+        const loginToken = jwt.sign({
+            user:{
+                email: user.email,
+                name: user.name,
+                age: user.age,
+                gender: user.gender,
+                 id : user.id
+            }
+        }, 
+        process.env.ACCESS_TOKEN_SECRET,
+        {expiresIn: "300m"}
+        )
+        res.status(200).json({
+            message: 'password reset successful',
+            accessToken: loginToken
+        })}
+    } catch (error) {
+        res.send("An error occured");
+        console.log(error);
+    }
+}
+
 
 
 module.exports = {
@@ -252,7 +354,9 @@ module.exports = {
     updateUser,
     deleteUser, 
     loginUser,
-    currentUser
+    currentUser,
+    sendResetMail,
+    passwordReset
 }
 
 

@@ -155,6 +155,8 @@ const editCredentials = async (req, res) => {
       const filePath6= path.resolve(fileName6)
 
       const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
+
+    
     
       pathArrr.map(arr=>{
          fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
@@ -240,3 +242,41 @@ const editCredentials = async (req, res) => {
     getAllCarCredentials,
     getSingleCarCredentials
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  //   function deleteFiles(){
+    //     return Promise.all([filePath,filePath2,filePath3,filePath4,filePath5,filePath6].map(file=>
+    //         new Promise((res, rej)=>{
+                
+    //                 fs.unlinkSync(file,  (err) => { //rootfolder/upload/filename
+    //                     if (err) {
+            
+    //                         return next(CustomErrorHandler.serverError(err.message));
+    //                     }
+    //                 });
+    //                 // if(file===filePath){
+    //                 //     res()
+    //                 //     return
+    //                 // }
+    //                 // fs.unlinkSync(file,  (err) => { //rootfolder/upload/filename
+    //                 //     if (err) {
+            
+    //                 //         return next(CustomErrorHandler.serverError(err.message));
+    //                 //     }
+    //                 // });
+                
+    //         })))
+
+        
+    //   }
+    //   deleteFiles()

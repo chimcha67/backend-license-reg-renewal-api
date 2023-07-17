@@ -14,13 +14,7 @@ const createProfile = async(req, res, next)=>{
         const { first_name,last_name,identity_number,date_of_birth, email, gender, address}= req.body
     
 
-        // if( !first_name || !last_name || !identity_number || !date_of_birth || !email || !gender || !address){
-        //     res.status(400).json({
-        //         message: 'all fields are required'
-        //     }
-        //     )
-            
-        // }
+      
 
         // check if user withsame id num exist exist
 
