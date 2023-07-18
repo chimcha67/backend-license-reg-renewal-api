@@ -33,14 +33,7 @@ const renewCommercialCar = async(req, res, file)=>{
         const uploader = async(path)=>await cloudinary.uploads(path)
           
         
-      //  if(req.files){
-      //   const urls = [];
-      //   //const files = req.files;
-      //   for (const file of req.files) {
-      //     const { path } = file;
-      //     const newPath = await uploader(path);
-      //     urls.push(newPath);
-      //   }
+     
       
         
         

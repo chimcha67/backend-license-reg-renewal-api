@@ -31,7 +31,7 @@ const renewPrivateCarReg = async(req, res, file)=>{
  
    
    const credentials = await oldPrivateCar.create({
-       //user_id:req.user.id,
+       user_id:req.user.id,
        //cloudinary_id: result.public_id,
        vin:vin,
        car_license_image:req.files.image[0].path,
@@ -39,7 +39,7 @@ const renewPrivateCarReg = async(req, res, file)=>{
        roadworthiness_image:req.files.image[1].path,
        roadworthiness_id: roadworthiness_id,
        
-        insurance_image:req.files.image[2].path,
+        insurance_image:req.files.image[2].path
        
        })
 

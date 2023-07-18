@@ -13,7 +13,7 @@ const Router = express.Router()
  //Router.get('/getProfile', ownerProfile.getProfile)
 
 
-Router.post('/oldCarReg',uploadFile.fields([
+Router.post('/oldCarReg',validateToken, uploadFile.fields([
     {name:'image'},
     {name:'image'},
     {name:'image'},
