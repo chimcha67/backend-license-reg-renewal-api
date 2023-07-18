@@ -41,10 +41,7 @@ let upload = multer({
 });
 
 
-  //router.post("/upload",uploadFile('./imageeeee'), controller.upload);
-  //router.get("/files", controller.getListFiles);
-  //router.get("/files/:name", controller.download);
-
+  
 
 
 module.exports = router;

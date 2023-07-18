@@ -40,7 +40,6 @@ const newCarReg = async(req, res, file)=>{
             proof_of_ownership_image:req.files.image[4].path,
             driver_license_image:req.files.image[5].path
             
-               
             })
     
         if(!credentials) return res.status(500).json({
