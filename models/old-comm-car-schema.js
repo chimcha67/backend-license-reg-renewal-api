@@ -3,11 +3,11 @@ const mongoose = require('mongoose')
 
 
 const oldCommercialCarSchema = new mongoose.Schema({
-    // user_id:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: false,
-    //     ref: 'User'
-    // },
+    user_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'User'
+    },
     //cloudinary_id: String,
    
     licence_id: String,
