@@ -21,7 +21,7 @@ const newCarReg = async(req, res, file)=>{
         if(checkCarByLicenceId || checkCarByVin){
             return res.status(400).json({
                 status: false,
-                message: 'vin or licence id already exist pls verify and try again'
+                message: 'vin or licence id already exist. Please verify and try again'
         })
         }
 
@@ -54,7 +54,7 @@ const newCarReg = async(req, res, file)=>{
         })
 
        
-        //const result = await User.create(user)
+      
     } catch (error) {
         console.log(error)
     }
@@ -154,11 +154,11 @@ const editCredentials = async (req, res) => {
       const filePath5= path.resolve(fileName5)
       const filePath6= path.resolve(fileName6)
 
-      const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
+      const pathArr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
 
     
     
-      pathArrr.map(arr=>{
+      pathArr.map(arr=>{
          fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
             if (err) {
 
@@ -211,9 +211,9 @@ const editCredentials = async (req, res) => {
       const filePath4= path.resolve(fileName4)
       const filePath5= path.resolve(fileName5)
       const filePath6= path.resolve(fileName6)
-      const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
+      const pathArr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
     
-      pathArrr.map(arr=>{
+      pathArr.map(arr=>{
          fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
             if (err) {
 

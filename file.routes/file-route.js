@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
  const storage=multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null,path.join(__dirname) , '../uploads', (err, success)=>{
+    cb(null,path.join(__dirname) , '../uploads', (err)=>{
       if(err){
         console.log(err)
       }
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
   filename: (req, file, cb) => {
     console.log(file.originalname);
     const name = Date.now()+ '-' + file.originalname
-    cb(null, name, (err, success)=>{
+    cb(null, name, (err)=>{
       if(err){
         console.log(err)
       }

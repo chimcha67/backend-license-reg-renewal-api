@@ -29,7 +29,7 @@ require('./file.routes/index.routes')
 // }))
 
 app.use(bodyParser.json());
-// connectDb()
+
 
 app.use(express.urlencoded({extended: true}))
 
@@ -58,19 +58,6 @@ app.listen(port, () => {
   console.log(`Running at localhost:${port}`);
 });
 
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(
-//       null,
-//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//     );
-//   },
-// });
-// const upload = multer({ storage: storage });
 
 
 // app.post("/uploadPhoto", upload.single("myImage"), (req, res) => {

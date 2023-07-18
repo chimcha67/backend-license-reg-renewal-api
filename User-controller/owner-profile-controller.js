@@ -10,7 +10,7 @@ const controller = express()
 
 const createProfile = async(req, res, next)=>{
     try {
-        //console.log(Date.now())
+       
         const { first_name,last_name,identity_number,date_of_birth, age, email, gender, address}= req.body
     
 
@@ -40,12 +40,10 @@ const createProfile = async(req, res, next)=>{
         //     })
         // }
 
-        // creating profil
-         //let {image} = req.body
-         //var imgUrl =''
-         //if(req.file) var imgUrl= `profile/image/${req.file.filename}`
+        
+        // Image uploader
          const result = await cloudinary.uploader.upload(req.file.path);
-         //image = result.secure_url
+     
 
         const profile = await ownerInfo.create({
                 //user_id:req.user.id,
@@ -61,14 +59,7 @@ const createProfile = async(req, res, next)=>{
                 
                
             })
-        // const user = await new User ({
-        //     name: name,
-        //     age: age,
-        //     email: email,
-        //     gender: gender,
-        //     password: password
-        // })
-        // await user.save()
+       
         if(!profile) return res.status(500).json({
             status: false,
             message: 'something went wrong'
@@ -217,7 +208,7 @@ const deleteUserProfile = async(req, res, next)=>{
         // throw new Error('User not found')
     }
     
-    //await User.remove()
+   
     res.status(200).json({
         message: 'user deleted successfully',
         userProfileDelete: userProfileDelete
@@ -237,64 +228,3 @@ module.exports = {
 }
 
 
-// const users = [
-//     {
-//         name:'chimy',
-//         age: 200
-//     },
-//     {
-//         name:'chimcha',
-//         age: 20
-//     },
-//     {
-//         name:'chimmizy',
-//         age: 4
-//     }
-// ]
-
-// const getUsers = async(req, res)=>{
-//     return res.send({
-//         message: 'get all users',
-//         users: users
-//     })
-
-    
-// }
-
-
-// // for getting single user
-
-// const singleUser = async(req, res)=>{
-//     const id = req.query.id
-//     //const index = users.findIndex(i=> i.id === id)
-//     if(id){
-//         res.send(
-//             users[id]
-//         )
-//     }
-// }
-
-
-
-
-// const deleteUser = async(req, res)=>{
-//     //const id = req.params.id
-//     const id = req.query.id
-//     const index = users.findIndex(i=> i.id === id)
-//     const name = users[index].name
-//     if(name){
-//         //delete users[index]
-//         users.splice(index, 1)
-//         return res.send({
-//             message: 'this is updated users list',
-//             users: users
-//         })
-//     }
-    
-// }
-
-// module.exports = {
-//     getUsers,
-//     deleteUser,
-//     singleUser
-// }

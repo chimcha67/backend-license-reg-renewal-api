@@ -23,11 +23,11 @@ const createProfile = async(req, res, next)=>{
         if(existingUser){
             return res.status(400).json({
                 status: false,
-                message: 'identity number already exist pls verify and try again'
+                message: 'Identity number already exist. Please verify and try again'
         })
         }
      
-        // creating profil
+        // creating profile
          //let {image} = req.body
          //var imgUrl =''
          //if(req.file) var imgUrl= `profile/image/${req.file.filename}`
@@ -48,14 +48,7 @@ const createProfile = async(req, res, next)=>{
                 
                
             })
-        // const user = await new User ({
-        //     name: name,
-        //     age: age,
-        //     email: email,
-        //     gender: gender,
-        //     password: password
-        // })
-        // await user.save()
+    
         if(!profile) return res.status(500).json({
             status: false,
             message: 'something went wrong'
@@ -67,7 +60,7 @@ const createProfile = async(req, res, next)=>{
         })
 
        
-        //const result = await User.create(user)
+       
     } catch (error) {
         console.log(error)
     }
@@ -87,9 +80,9 @@ const getProfile = async(req, res, next)=>{
     if(!userProfile){
         res.status(404).json({
             success: false,
-            message: "user info  not found"
+            message: "user info not found"
         })
-        // throw new Error('Users not found')
+       
     }
     res.status(200).json({
         success: true,
@@ -106,7 +99,7 @@ const getProfile = async(req, res, next)=>{
 const getSingleUserProfile = async(req, res, next)=>{
    try {
     const id = req.params.id
-    if(id.length>24 || id.length<24) return res.status(400).json({message:'invalid id'})
+    if(id.length > 24 || id.length<24) return res.status(400).json({message:'invalid id'})
     const userProfile = await ownerInfo.findById(id)
 
     if(!userProfile){
@@ -230,64 +223,3 @@ module.exports = {
 }
 
 
-// const users = [
-//     {
-//         name:'chimy',
-//         age: 200
-//     },
-//     {
-//         name:'chimcha',
-//         age: 20
-//     },
-//     {
-//         name:'chimmizy',
-//         age: 4
-//     }
-// ]
-
-// const getUsers = async(req, res)=>{
-//     return res.send({
-//         message: 'get all users',
-//         users: users
-//     })
-
-    
-// }
-
-
-// // for getting single user
-
-// const singleUser = async(req, res)=>{
-//     const id = req.query.id
-//     //const index = users.findIndex(i=> i.id === id)
-//     if(id){
-//         res.send(
-//             users[id]
-//         )
-//     }
-// }
-
-
-
-
-// const deleteUser = async(req, res)=>{
-//     //const id = req.params.id
-//     const id = req.query.id
-//     const index = users.findIndex(i=> i.id === id)
-//     const name = users[index].name
-//     if(name){
-//         //delete users[index]
-//         users.splice(index, 1)
-//         return res.send({
-//             message: 'this is updated users list',
-//             users: users
-//         })
-//     }
-    
-// }
-
-// module.exports = {
-//     getUsers,
-//     deleteUser,
-//     singleUser
-// }
