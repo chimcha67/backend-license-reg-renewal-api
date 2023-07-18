@@ -35,7 +35,7 @@ const createProfile = async(req, res, next)=>{
          //image = result.secure_url
 
         const profile = await ownerInfo.create({
-                //user_id:req.user.id,
+                user_id:req.user.id,
                 identity_card:result.secure_url,
                 identity_number:identity_number,
                 first_name: first_name,
