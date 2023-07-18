@@ -22,7 +22,7 @@ const uploader = require('../middleware/uploader')
 
 Router.get('/getProfile',validateToken, ownerProfile.getProfile)
 Router.get('/getAllDoc',validateToken, newCarController.getAllCarCredentials)
-Router.get('/allPrivateDoc',validateToken, oldPrivateCarController.getAllCarCredentials)
+//Router.get('/allPrivateDoc',validateToken, oldPrivateCarController.getAllCarCredentials)
 
 
 Router.post('/create', userService.registration)

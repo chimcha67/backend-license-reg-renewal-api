@@ -40,3 +40,4 @@ const oldPrivateCarSchema = new mongoose.Schema({
 });
 const Image = mongoose.model("oldPrivateCar", oldPrivateCarSchema);
 module.exports = Image
+ 

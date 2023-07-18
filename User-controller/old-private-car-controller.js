@@ -129,7 +129,7 @@ const editCredentials = async (req, res) => {
 
 
       const id = req.params.id
-      const files = await oldCommercialCar.findById(id)
+      const files = await oldPrivateCar.findById(id)
 
       if(JSON.stringify(files.user_id) !== JSON.stringify(req.user.id)){
         return res.status(403).json({
@@ -178,7 +178,7 @@ const editCredentials = async (req, res) => {
     try {
       // Find user by id
       const id  = req.params.id
-      const files = await oldCommercialCar.findById(id)
+      const files = await oldPrivateCar.findById(id)
       if(JSON.stringify(files.user_id) !== JSON.stringify(req.user.id)){
         return res.status(403).json({
             message: 'user cannot delete another user details'
