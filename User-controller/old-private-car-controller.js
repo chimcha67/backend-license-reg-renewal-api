@@ -2,6 +2,7 @@ const oldPrivateCar= require('../models/old-private-car-schema')
 const express = require('express')
  require("dotenv").config()
  const cloudinary = require('../controllers/cloudinary')
+ const path = require('path')
  //const emailValidator = require('deep-email-validator')
 
 const controller = express()
