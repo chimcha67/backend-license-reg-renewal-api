@@ -8,8 +8,6 @@ const ownerProfile = require('../User-controller/owner-info-controller')
 const oldCommercialCarController = require('../User-controller/old-comm-car-controller')
 const oldPrivateCarController = require('../User-controller/old-private-car-controller')
 const newCarController = require('../User-controller/new-car-controller')
-//const myUploads = require('../middleware/myUploads')
-//const uploadmmobile = require('../middleware/myUploads')
 const uploadFile = require('../middleware/upload')
 const uploader = require('../middleware/uploader')
 
