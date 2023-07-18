@@ -149,11 +149,11 @@ const updateUserProfile = async(req, res, next)=>{
         // Upload new image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
 
-    // if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
-    //     return res.status(403).json({
-    //         message: 'user cannot edit another users profile'
-    //     })
-    // }
+    if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
+        return res.status(403).json({
+            message: 'user cannot edit another users profile'
+        })
+    }
     const { first_name,last_name,identity_number,dob,state, local_government, age, email, gender, address}= req.body
 
     const newProfile = {
