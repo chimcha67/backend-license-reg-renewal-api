@@ -3,7 +3,7 @@ const ownerInfo = require('../models/owner-info-schema')
 const app = express()
  require("dotenv").config()
 const fs = require('fs')
-const  cloudinary = require('../controllers/cloudinary')
+const cloudinary = require('../controllers/cloudinary')
 
 
 const controller = express()
@@ -16,7 +16,7 @@ const createProfile = async(req, res, next)=>{
 
       
 
-        // check if user withsame id num exist exist
+        // check if user with same id num exist 
 
 
         const existingUser = await ownerInfo.findOne({identity_number})
@@ -147,7 +147,7 @@ const updateUserProfile = async(req, res, next)=>{
     //         message: 'user cannot edit another users profile'
     //     })
     // }
-    const { first_name,last_name,identity_number,dob,state, local_government, age, email, gender, address}= req.body
+    const { first_name,last_name,identity_number,date_of_birth,state, local_government, age, email, gender, address}= req.body
 
     const newProfile = {
         //user_id:req.user.id,
