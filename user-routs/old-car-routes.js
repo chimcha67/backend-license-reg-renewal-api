@@ -21,7 +21,7 @@ Router.post('/oldCarReg',validateToken, uploadFile.fields([
     {name:'image'},
     
 ]), userService.oldCommercialCar)
-Router.get('/allOldCommerDoc', oldCommercialCarController.getAllCarCredentials)
+Router.get('/allOldCommerDoc',validateToken, oldCommercialCarController.getAllCarCredentials)
 Router.get('/user/singleCommerDoc/:id', oldCommercialCarController.getSingleCarCredentials)
 Router.put('/user/editOldCommerDoc/:id',uploadFile.fields([
     {name:'image'},
