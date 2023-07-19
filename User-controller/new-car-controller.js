@@ -69,7 +69,7 @@ const getAllCarCredentials = async(req, res, next)=>{
         // })
         // const usePage = page-1
     const allCarDoc = await newCar.find({user_id:req.user.id})
-    if(!users){
+    if(!allCarDoc){
         res.status(404).json({
             success: false,
             message: "car info  not found"
