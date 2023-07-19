@@ -28,8 +28,8 @@ Router.get('/allPrivateDoc',validateToken, oldPrivateCarController.getAllCarCred
 Router.post('/create', userService.registration)
 Router.get('/current',validateToken, userCntroller.currentUser)
 Router.get('/', userCntroller.getAllUsers)
-Router.post('/forgotPassword',validateToken, userCntroller.sendResetMail)
-Router.patch('/resetPassword/:token',validateToken, userCntroller.passwordReset)
+Router.post('/forgotPassword', userCntroller.sendResetMail)
+Router.patch('/resetPassword/:id/:token', userCntroller.passwordReset)
 
 Router.get('/:id',validateToken, userCntroller.getSingleUser)
 Router.put('/:id',validateToken, userCntroller.updateUser)
