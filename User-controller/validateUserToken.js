@@ -16,7 +16,7 @@ const validateToken = async(req, res, next)=> {
                 return res.status(401).json({message: 'unauthorized user'})
             }
            req.user = decoded.user
-           console.log(req.user)
+         
           next()
         //   if(res.headerSent !== true){
         //          res.send('hello')
