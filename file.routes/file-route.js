@@ -7,7 +7,6 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const maxSize = 2 * 1024 * 1024;
 const uploadFile = require('../middleware/upload');
-const myUploads = require("../middleware/myUploads");
 
 const app = express()
 app.use(

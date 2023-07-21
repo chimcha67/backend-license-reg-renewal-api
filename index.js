@@ -10,7 +10,7 @@ const connectDb = require("./models/db");
 const Image = require('./models/file-schema')
 const fileRouter = require('./file.routes/file-route')
 const userRouter = require('./user-routes/users')
-const oldcarfileRouter = require('./user-routs/old-car-routes')
+const oldcarfileRouter = require('./user-routes/old-car-routes')
 
 
 global.__basedir = __dirname;
