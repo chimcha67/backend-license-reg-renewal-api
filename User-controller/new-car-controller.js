@@ -60,6 +60,14 @@ const newCarReg = async(req, res, file)=>{
 }
 
 
+
+
+
+
+
+
+
+
 const getAllCarCredentials = async(req, res, next)=>{
     try {
         // const {page, limit} = req.query

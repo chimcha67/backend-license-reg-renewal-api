@@ -179,7 +179,7 @@ const updateUserProfile = async(req, res, next)=>{
 const deleteUserProfile = async(req, res, next)=>{
  try {
     const id = req.params.id
-    if(id.length>24 || id.length<24) return res.status(400)
+    if(id.length > 24 || id.length < 24) return res.status(400)
     const userProfile = await ownerInfo.findById(id)
 
     // if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){

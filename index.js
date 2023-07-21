@@ -9,7 +9,7 @@ const path = require('path');
 const connectDb = require("./models/db");
 const Image = require('./models/file-schema')
 const fileRouter = require('./file.routes/file-route')
-const userRouter = require('./user-routs/users')
+const userRouter = require('./user-routes/users')
 const oldcarfileRouter = require('./user-routs/old-car-routes')
 
 
