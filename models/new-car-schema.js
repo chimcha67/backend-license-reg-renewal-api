@@ -19,35 +19,14 @@ const newCarSchema = new mongoose.Schema({
         required: true
     },
     //cloudinary_id: String,
-    owner_passport:{
-        type: String,
-        required: [true, 'pls insert passport']
-    },
-    attestation_letter_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
-    purchase_receipt_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
-    delivery_note_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
-    proof_of_ownership_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
-    driver_license_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
+    owner_passport:[],
+    attestation_letter_image: [],
+    purchase_receipt_image: [],
+    delivery_note_image: [],
+    proof_of_ownership_image: [],
+    driver_license_image: [],
+
+    cloudinary_id: [],
    
    
     // current_add_proof:{

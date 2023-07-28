@@ -29,19 +29,29 @@ const renewPrivateCarReg = async(req, res, file)=>{
    //if(req.file) var imgUrl= `files/img/${req.file.originalname}`
    //const result = await cloudinary.uploader.upload(req.file.path);
    //console.log(result)
-   const uploader = async(path)=>await cloudinary.uploads(path)
+   const url = []
+   const image_ids = []
+   for(var i=0;i<req.files.length;i++){
+   var locaFilePath = req.files[i].path
+   var result = await cloudinary.uploader.upload(locaFilePath)
+   url[i]= {img_url:result.secure_url, id:result.public_id}
+
+   image_ids.push(result.public_id)
+}
+   
  
    
    const credentials = await oldPrivateCar.create({
        user_id:req.user.id,
        //cloudinary_id: result.public_id,
        vin:vin,
-       car_license_image:req.files.image[0].path,
+       car_license_image: url[0],
        licence_id: licence_id,
-       roadworthiness_image:req.files.image[1].path,
+       roadworthiness_image:url[1],
        roadworthiness_id: roadworthiness_id,
        
-        insurance_image:req.files.image[2].path
+        insurance_image: url[2],
+        cloudinary_id: image_ids
        
        })
 
@@ -139,32 +149,67 @@ const editCredentials = async (req, res) => {
         })
     }
 
-      const fileName = (files.car_license_image)
-      const fileName2 = files.roadworthiness_image
-      const fileName3 = files.insurance_image
+      const fileName = files.car_license_image[0].id
+      const fileName2 = files.roadworthiness_image[0].id
+      const fileName3 = files.insurance_image[0].id
       
       
 
 
-    const filePath= path.resolve(fileName)
-    const filePath2= path.resolve(fileName2)
-    const filePath3= path.resolve(fileName3)
     
-    const pathArrr = [filePath,filePath2,filePath3]
-    
-      pathArrr.map(arr=>{
-         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
-            if (err) {
 
-                return next(CustomErrorHandler.serverError(err.message));
-            }
-        });
-      })
+
+  
+
+    const pathArrr = [fileName,fileName2,fileName3]
+
+  
+  
+
+
+    let cloud_img_id = files.cloudinary_id
+  for(var i=0;i<cloud_img_id.length;i++){
+
+  cloud_img_id.map(imgId=>{
+       if(JSON.stringify(pathArrr[i]) === JSON.stringify(imgId)){
+            cloudinary.uploader.destroy(pathArrr[i]);
+       }
+  })
+}
+  // Upload new image to cloudinary
+ 
+
+
+  const url = []
+  const image_ids = []
+for(var i=0;i<req.files.length;i++){
+  var locaFilePath = req.files[i].path
+  var result = await cloudinary.uploader.upload(locaFilePath)
+  url[i]= {img_url:result.secure_url, id:result.public_id}
+
+  image_ids.push(result.public_id)
+}
+const newDoc = {
+  
+  //cloudinary_id: result.public_id,
+          vin:req.body.vin,
+          car_license_image:url[0] || files.car_license_image,
+          licence_id: req.body.licence_id,
+          roadworthiness_image:url[1] || files.roadworthiness_image,
+          roadworthiness_id: req.body.roadworthiness_id,
+          
+           insurance_image: url[2] || files.insurance_image,
+          
+          cloudinary_id: image_ids|| files.cloudinary_id
+  
+     
+  }
+ 
    
   
       const updateDoc = await oldPrivateCar.findByIdAndUpdate(
         id,
-        {licence_id:req.body.licence_id, roadworthiness_id:req.body.roadworthiness_id,vin:req.body.vin, image:filesPath},
+        newDoc,
          {new:true}
       )
     console.log(req.file)
@@ -186,29 +231,33 @@ const editCredentials = async (req, res) => {
             message: 'user cannot delete another user details'
         })
     }
-      const fileName = (files.car_license_image)
-      const fileName2 = files.roadworthiness_image
-      const fileName3 = files.insurance_image
-      
-      
-
-
-    const filePath= path.resolve(fileName)
-    const filePath2= path.resolve(fileName2)
-    const filePath3= path.resolve(fileName3)
+    const fileName = files.car_license_image[0].id
+    const fileName2 = files.roadworthiness_image[0].id
+    const fileName3 = files.insurance_image[0].id
     
-    const pathArrr = [filePath,filePath2,filePath3]
     
-      pathArrr.map(arr=>{
-         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
-            if (err) {
 
-                return next(CustomErrorHandler.serverError(err.message));
-            }
-        });
-      })
-   
 
+  
+
+
+
+
+  const pathArrr = [fileName,fileName2,fileName3]
+
+
+
+
+
+  let cloud_img_id = files.cloudinary_id
+for(var i=0;i<cloud_img_id.length;i++){
+
+cloud_img_id.map(imgId=>{
+     if(JSON.stringify(pathArrr[i]) === JSON.stringify(imgId)){
+          cloudinary.uploader.destroy(pathArrr[i]);
+     }
+})
+}
       let file = await oldPrivateCar.findByIdAndRemove(id);
       // Delete image from cloudinary
       //await cloudinary.uploader.destroy(file.cloudinary_id);

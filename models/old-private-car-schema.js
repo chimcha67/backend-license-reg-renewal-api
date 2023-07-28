@@ -8,12 +8,8 @@ const oldPrivateCarSchema = new mongoose.Schema({
         required: false,
         ref: 'User'
     },
-    cloudinary_id: String,
-    car_license_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
+   
+    car_license_image:[],
     licence_id:{
         type: String,
         required: [true, 'pls insert car license id']
@@ -23,20 +19,13 @@ const oldPrivateCarSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    roadworthiness_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    },
+    roadworthiness_image: [],
     roadworthiness_id:{
         type: String,
         required: [true, 'pls insert car license id']
     },
-    insurance_image: {
-        // data: Buffer,
-        type: String,
-        required: true
-    }
+    insurance_image: [],
+    cloudinary_id: []
 });
 const Image = mongoose.model("oldPrivateCar", oldPrivateCarSchema);
 module.exports = Image
