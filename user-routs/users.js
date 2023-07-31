@@ -28,8 +28,8 @@ Router.get('/allPrivateDoc',validateToken, oldPrivateCarController.getAllCarCred
 Router.post('/create', userService.registration)
 Router.get('/current',validateToken, userCntroller.currentUser)
 Router.get('/', userCntroller.getAllUsers)
-Router.post('/forgotPassword',validateToken, userCntroller.sendResetMail)
-Router.patch('/resetPassword/:token',validateToken, userCntroller.passwordReset)
+Router.post('/forgotPassword', userCntroller.sendResetMail)
+Router.patch('/resetPassword/:id/:token', userCntroller.passwordReset)
 
 Router.get('/:id',validateToken, userCntroller.getSingleUser)
 Router.put('/:id',validateToken, userCntroller.updateUser)
@@ -46,41 +46,17 @@ Router.delete('/deleteProfile/:id',validateToken, ownerProfile.deleteUserProfile
 
 
 
-Router.post('/oldPrivate',validateToken, uploadFile.fields([
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    
-]), userService.oldPrivateCar)
+Router.post('/oldPrivate',validateToken, uploader.array('image'), userService.oldPrivateCar)
 Router.get('/singlePrivateDoc/:id',validateToken, oldPrivateCarController.getSingleCarCredentials)
-Router.put('/editPrivateDoc/:id',validateToken,uploadFile.fields([
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-
-]), userService.editOldPrivateCar)
+Router.put('/editPrivateDoc/:id',validateToken,uploader.array('image'), userService.editOldPrivateCar)
 Router.delete('/delPrivateDoc/:id',validateToken, oldPrivateCarController.deleteCredential)
 
 
 
 
-Router.post('/regNewCar',validateToken, uploadFile.fields([
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'}
-]), userService.newCar)
+Router.post('/regNewCar',validateToken, uploader.array('image'), userService.newCar)
 Router.get('/getSingleNewCar/:id',validateToken, newCarController.getSingleCarCredentials)
-Router.put('/editNewCar/:id',validateToken,uploadFile.fields([
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'}
-]), userService.editNewCar)
+Router.put('/editNewCar/:id',validateToken,uploader.array('image'), userService.editNewCar)
 Router.delete('/delNewCar/:id',validateToken, newCarController.deleteCredential)
 
 

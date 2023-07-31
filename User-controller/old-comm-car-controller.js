@@ -33,31 +33,34 @@ const renewCommercialCar = async(req, res, file)=>{
         const uploader = async(path)=>await cloudinary.uploads(path)
           
         
-      //  if(req.files){
-      //   const urls = [];
-      //   //const files = req.files;
-      //   for (const file of req.files) {
-      //     const { path } = file;
-      //     const newPath = await uploader(path);
-      //     urls.push(newPath);
-      //   }
+     
       
         
         
         //const credentials = await new oldCommercialCar(payload).save()
+        const url = []
+        const image_ids = []
+        for(var i=0;i<req.files.length;i++){
+        var locaFilePath = req.files[i].path
+        var result = await cloudinary.uploader.upload(locaFilePath)
+        url[i]= {img_url:result.secure_url, id:result.public_id}
+
+        image_ids.push(result.public_id)
+    }
         
         const credentials = await oldCommercialCar.create({
             user_id:req.user.id,
             //cloudinary_id: result.public_id,
             vin:vin,
-            car_license_image:req.files.image[0].path,
+            car_license_image:url[0],
             licence_id: licence_id,
-            roadworthiness_image:req.files.image[1].path,
+            roadworthiness_image:url[1],
             roadworthiness_id: roadworthiness_id,
             
-             insurance_image:req.files.image[2].path,
-            carrier_permit_image:req.files.image[3].path,
-            heavy_goods_permit_image:req.files.image[4].path
+             insurance_image: url[2],
+            carrier_permit_image: url[3],
+            heavy_goods_permit_image: url[4],
+            cloudinary_id: image_ids
             
                
             })
@@ -107,7 +110,7 @@ const getAllCarCredentials = async(req, res, next)=>{
 const getSingleCarCredentials = async(req, res, next)=>{
   try {
    //console.log( req.files.originalname)
-   var ObjectId = require('mongodb').ObjectID;
+   //var ObjectId = require('mongodb').ObjectID;
    const id = (req.params.id)
    if(id.length>24 || id.length<24) return res.status(400).json({message:'invalid id'})
    const singleCarDoc = await oldCommercialCar.findById(id)
@@ -154,34 +157,64 @@ const editCredentials = async (req, res) => {
               message: 'user cannot edit another user details'
           })
       }
-      const fileName = (files.car_license_image)
-      const fileName2 = files.roadworthiness_image
-      const fileName3 = files.insurance_image
-      const fileName4 = files.carrier_permit_image
-      const fileName5 = files.heavy_goods_permit_image
-      
+      const fileName = files.car_license_image[0].id
+        const fileName2 = files.roadworthiness_image[0].id
+        const fileName3 = files.carrier_permit_image[0].id
+        const fileName4 = files.insurance_image[0].id
+        const fileName5 = files.heavy_goods_permit_image[0].id
+        //const fileName6 = files.driver_license_image[0].id
 
 
-    const filePath= path.resolve(fileName)
-    const filePath2= path.resolve(fileName2)
-    const filePath3= path.resolve(fileName3)
-    const filePath4= path.resolve(fileName4)
-    const filePath5= path.resolve(fileName5)
-
-    const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5]
     
-    pathArrr.map(arr=>{
-       fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
-          if (err) {
 
-              return next(CustomErrorHandler.serverError(err.message));
-          }
-      });
-    }) 
+      const pathArrr = [fileName,fileName2,fileName3,fileName4,fileName5,]
+
+    
+    
+
+
+      let cloud_img_id = files.cloudinary_id
+    for(var i=0;i<cloud_img_id.length;i++){
+
+    cloud_img_id.map(imgId=>{
+         if(JSON.stringify(pathArrr[i]) === JSON.stringify(imgId)){
+              cloudinary.uploader.destroy(pathArrr[i]);
+         }
+    })
+}
+    // Upload new image to cloudinary
+   
+
+
+    const url = []
+    const image_ids = []
+  for(var i=0;i<req.files.length;i++){
+    var locaFilePath = req.files[i].path
+    var result = await cloudinary.uploader.upload(locaFilePath)
+    url[i]= {img_url:result.secure_url, id:result.public_id}
+
+    image_ids.push(result.public_id)
+  }
+  const newDoc = {
+    
+    //cloudinary_id: result.public_id,
+            vin:req.body.vin,
+            car_license_image:url[0] || files.car_license_image,
+            licence_id: req.body.licence_id,
+            roadworthiness_image:url[1] || files.roadworthiness_image,
+            roadworthiness_id: req.body.roadworthiness_id,
+            
+             insurance_image: url[2] || files.insurance_image,
+            carrier_permit_image: url[3] || files.carrier_permit_image,
+            heavy_goods_permit_image: url[4] || files.heavy_goods_permit_image,
+            cloudinary_id: image_ids|| files.cloudinary_id
+    
+       
+    }
    
         const updateDoc = await oldCommercialCar.findByIdAndUpdate(
           id,
-          {licence_id:req.body.licence_id, roadworthiness_id:req.body.roadworthiness_id,vin:req.body.vin, image:filesPath},
+          newDoc,
            {new:true}
         )
       console.log(req.file)
@@ -219,31 +252,31 @@ const editCredentials = async (req, res) => {
             message: 'user cannot edit another user details'
         })
     }
-      const fileName = (files.car_license_image)
-      const fileName2 = files.roadworthiness_image
-      const fileName3 = files.insurance_image
-      const fileName4 = files.carrier_permit_image
-      const fileName5 = files.heavy_goods_permit_image
-      
+    const fileName = files.car_license_image[0].id
+        const fileName2 = files.roadworthiness_image[0].id
+        const fileName3 = files.carrier_permit_image[0].id
+        const fileName4 = files.insurance_image[0].id
+        const fileName5 = files.heavy_goods_permit_image[0].id
+    //const fileName6 = files.driver_license_image[0].id
 
 
-    const filePath= path.resolve(fileName)
-    const filePath2= path.resolve(fileName2)
-    const filePath3= path.resolve(fileName3)
-    const filePath4= path.resolve(fileName4)
-    const filePath5= path.resolve(fileName5)
-    
-    const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5]
-    
-      pathArrr.map(arr=>{
-         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
-            if (err) {
 
-                return next(CustomErrorHandler.serverError(err.message));
-            }
-        });
-      })
-   
+
+  const pathArrr = [fileName,fileName2,fileName3,fileName4,fileName5,]
+
+
+
+
+
+      let cloud_img_id = files.cloudinary_id
+    for(var i=0;i<cloud_img_id.length;i++){
+
+    cloud_img_id.map(imgId=>{
+        if(JSON.stringify(pathArrr[i]) === JSON.stringify(imgId)){
+              cloudinary.uploader.destroy(pathArrr[i]);
+        }
+    })
+    }
     // Find user by id
       let file = await oldCommercialCar.findByIdAndRemove(id);
      

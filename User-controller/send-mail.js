@@ -28,7 +28,7 @@ const sendEmail = async (email, subject, text) => {
         });
 
         await transporter.sendMail({
-            from: 'stanumy licence renewal corporation<noreply@gmail.com>',
+            from: 'stanumy licence renewal corporation<comfortenock73@gmail.com>',
             to: email,
             subject: subject,
             text: text,

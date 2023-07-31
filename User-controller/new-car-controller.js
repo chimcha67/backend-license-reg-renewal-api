@@ -4,7 +4,6 @@ const express = require('express')
  const cloudinary = require('../controllers/cloudinary')
  const path = require('path')
  const fs = require('fs')
-const { oldPrivateCar } = require('./user.services')
 
 
 
@@ -27,18 +26,28 @@ const newCarReg = async(req, res, file)=>{
 
         // submitting credentials
         //const result = await cloudinary.uploader.upload(req.file.path,{width:500,heigth:500});
+        const url = []
+        const image_ids = []
+        for(var i=0;i<req.files.length;i++){
+        var locaFilePath = req.files[i].path
+        var result = await cloudinary.uploader.upload(locaFilePath)
+        url[i]= {img_url:result.secure_url, id:result.public_id}
+
+        image_ids.push(result.public_id)
+    }
         
         const credentials = await newCar.create({
             user_id:req.user.id,
             //cloudinary_id: result.public_id,
             licence_id: licence_id,
             vin:vin,
-            owner_passport:req.files.image[0].path,
-            attestation_letter_image:req.files.image[1].path,
-            purchase_receipt_image:req.files.image[2].path,
-            delivery_note_image:req.files.image[3].path,
-            proof_of_ownership_image:req.files.image[4].path,
-            driver_license_image:req.files.image[5].path
+            owner_passport:url[0],
+            attestation_letter_image:url[1],
+            purchase_receipt_image:url[2],
+            delivery_note_image: url[3],
+            proof_of_ownership_image: url[4],
+            driver_license_image: url[5],
+            cloudinary_id: image_ids
             
                
             })
@@ -70,7 +79,7 @@ const getAllCarCredentials = async(req, res, next)=>{
         // })
         // const usePage = page-1
     const allCarDoc = await newCar.find({user_id:req.user.id})
-    if(!users){
+    if(!allCarDoc){
         res.status(404).json({
             success: false,
             message: "car info  not found"
@@ -139,37 +148,76 @@ const editCredentials = async (req, res) => {
         })
     }
    
-      const fileName = files.owner_passport
-        const fileName2 = files.attestation_letter_image
-        const fileName3 = files.purchase_receipt_image
-        const fileName4 = files.delivery_note_image
-        const fileName5 = files.proof_of_ownership_image
-        const fileName6 = files.driver_license_image
+      const fileName = files.owner_passport[0].id
+        const fileName2 = files.attestation_letter_image[0].id
+        const fileName3 = files.purchase_receipt_image[0].id
+        const fileName4 = files.delivery_note_image[0].id
+        const fileName5 = files.proof_of_ownership_image[0].id
+        const fileName6 = files.driver_license_image[0].id
 
 
-      const filePath= path.resolve(fileName)
-      const filePath2= path.resolve(fileName2)
-      const filePath3= path.resolve(fileName3)
-      const filePath4= path.resolve(fileName4)
-      const filePath5= path.resolve(fileName5)
-      const filePath6= path.resolve(fileName6)
+    //   const filePath= path.resolve(fileName)
+    //   const filePath2= path.resolve(fileName2)
+    //   const filePath3= path.resolve(fileName3)
+    //   const filePath4= path.resolve(fileName4)
+    //   const filePath5= path.resolve(fileName5)
+    //   const filePath6= path.resolve(fileName6)
 
-      const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
+      const pathArrr = [fileName,fileName2,fileName3,fileName4,fileName5,fileName6]
 
     
     
-      pathArrr.map(arr=>{
-         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
-            if (err) {
+    //   pathArrr.map(arr=>{
+    //      fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+    //         if (err) {
 
-                return next(CustomErrorHandler.serverError(err.message));
-            }
-        });
-      })
+    //             return next(CustomErrorHandler.serverError(err.message));
+    //         }
+    //     });
+    //   })
+
+
+      let cloud_img_id = files.cloudinary_id
+    for(var i=0;i<cloud_img_id.length;i++){
+
+    cloud_img_id.map(imgId=>{
+         if(JSON.stringify(pathArrr[i]) === JSON.stringify(imgId)){
+              cloudinary.uploader.destroy(pathArrr[i]);
+         }
+    })
+}
+    // Upload new image to cloudinary
+   
+
+
+    const url = []
+    const image_ids = []
+  for(var i=0;i<req.files.length;i++){
+    var locaFilePath = req.files[i].path
+    var result = await cloudinary.uploader.upload(locaFilePath)
+    url[i]= {img_url:result.secure_url, id:result.public_id}
+
+    image_ids.push(result.public_id)
+  }
+  const newDoc = {
+    
+    //cloudinary_id: result.public_id,
+    licence_id: req.body.licence_id,
+    vin: req.body.arrvin,
+    owner_passport:url[0] || files.owner_passport,
+    attestation_letter_image:url[1] || files.attestation_letter_image,
+    purchase_receipt_image:url[2] || files.purchase_receipt_image,
+    delivery_note_image: url[3] || files.delivery_note_image,
+    proof_of_ownership_image: url[4] || files.proof_of_ownership_image,
+    driver_license_image: url[5] || files.driver_license_image,
+    cloudinary_id: image_ids || files.cloudinary_id
+    
+       
+    }
      
       const updateDoc = await newCar.findByIdAndUpdate(
         id,
-        {licence_id:req.body.licence_id,vin:req.body.vin, image:filesPath,},
+        newDoc,
          {new:true}
       )
         
@@ -194,33 +242,31 @@ const editCredentials = async (req, res) => {
             message: 'user cannot delete another user details'
         })
     }
+    const fileName = files.owner_passport[0].id
+    const fileName2 = files.attestation_letter_image[0].id
+    const fileName3 = files.purchase_receipt_image[0].id
+    const fileName4 = files.delivery_note_image[0].id
+    const fileName5 = files.proof_of_ownership_image[0].id
+    const fileName6 = files.driver_license_image[0].id
+
+
+
+
+  const pathArrr = [fileName,fileName2,fileName3,fileName4,fileName5,fileName6]
+
+
+
+  let cloud_img_id = files.cloudinary_id
+for(var i=0;i<cloud_img_id.length;i++){
+
+cloud_img_id.map(imgId=>{
+     if(JSON.stringify(pathArrr[i]) === JSON.stringify(imgId)){
+          cloudinary.uploader.destroy(pathArrr[i]);
+     }
+})
+}
     let file = await newCar.findByIdAndRemove(id);
 
-      const fileName = file.owner_passport
-      
-      const fileName2 = file.attestation_letter_image
-      const fileName3 = file.purchase_receipt_image
-      const fileName4 = file.delivery_note_image
-      const fileName5 = file.proof_of_ownership_image
-      const fileName6 = file.driver_license_image
-
-
-      const filePath= path.resolve(fileName)
-      const filePath2= path.resolve(fileName2)
-      const filePath3= path.resolve(fileName3)
-      const filePath4= path.resolve(fileName4)
-      const filePath5= path.resolve(fileName5)
-      const filePath6= path.resolve(fileName6)
-      const pathArrr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
-    
-      pathArrr.map(arr=>{
-         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
-            if (err) {
-
-                return next(CustomErrorHandler.serverError(err.message));
-            }
-        });
-      })
      
     
       // Find user by id

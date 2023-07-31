@@ -294,10 +294,10 @@ const sendResetMail = async(req,res, next)=>{
 
 const passwordReset = async(req,res)=>{
     try {
-        const id = req.user.id
+        const id = req.params.id
         const {password, repeat_password } = req.body
          const user = await User.findById(id);
-         console.log(user)
+         
          if (!user) return res.status(400).send("invalid link or expired");
 
         const token = await Token.findOne({
@@ -307,9 +307,11 @@ const passwordReset = async(req,res)=>{
         });
         //console.log(token, token.userId==user.id)
         if (!token) return res.status(400).send("Invalid link or expired");
+        if(password !== repeat_password) return res.json({message:'password must be thesame'})
+
         const hashedPassword = await bcrypt.hash(password, 10)
         const repeatPassword = await bcrypt.hash(repeat_password, 10)
-        if(token.userId == req.user.id){
+        if(token.userId == user.id){
         user.password = hashedPassword;
         user.repeat_password = repeatPassword;
         // token.token = undefined
