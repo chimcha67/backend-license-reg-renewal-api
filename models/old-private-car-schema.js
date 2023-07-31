@@ -27,10 +27,6 @@ const oldPrivateCarSchema = new mongoose.Schema({
     insurance_image: [],
     cloudinary_id: []
 });
-<<<<<<< HEAD
 const Image = mongoose.model("oldPrivateCar", oldPrivateCarSchema);
 module.exports = Image
  
-=======
-module.exports = mongoose.model("oldPrivateCar", oldPrivateCarSchema);
->>>>>>> Kelenna
