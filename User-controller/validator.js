@@ -49,7 +49,12 @@ const newCarSchema = Joi.object({
     
     licence_id:Joi.number().min(1000).required(),
     vin:Joi.string().min(5).required(),
-
+    owner_passport:Joi.string(),
+    attestation_letter_image:Joi.string(),
+    purchase_receipt_image:Joi.string(),
+    delivery_note_image:Joi.string(),
+    proof_of_ownership_image:Joi.string(),
+    driver_license_image:Joi.string()
 
 })
 

@@ -63,12 +63,12 @@ Router.delete('/delPrivateDoc/:id',validateToken, oldPrivateCarController.delete
 
 
 Router.post('/regNewCar',validateToken, uploadFile.fields([
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'},
-    {name:'image'}
+    {name:'owner_passport'},
+    {name:'attestation_letter_image'},
+    {name:'purchase_receipt_image'},
+    {name:'delivery_note_image'},
+    {name:'proof_of_ownership_image'},
+    {name:'driver_license_image'}
 ]), userService.newCar)
 Router.get('/getSingleNewCar/:id',validateToken, newCarController.getSingleCarCredentials)
 Router.put('/editNewCar/:id',validateToken,uploadFile.fields([
