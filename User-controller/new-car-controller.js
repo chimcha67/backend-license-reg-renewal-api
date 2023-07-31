@@ -4,6 +4,10 @@ const express = require('express')
  const cloudinary = require('../controllers/cloudinary')
  const path = require('path')
  const fs = require('fs')
+<<<<<<< HEAD
+=======
+
+>>>>>>> Kelenna
 
 
 
@@ -20,7 +24,7 @@ const newCarReg = async(req, res, file)=>{
         if(checkCarByLicenceId || checkCarByVin){
             return res.status(400).json({
                 status: false,
-                message: 'vin or licence id already exist pls verify and try again'
+                message: 'vin or licence id already exist. Please verify and try again'
         })
         }
 
@@ -49,7 +53,6 @@ const newCarReg = async(req, res, file)=>{
             driver_license_image: url[5],
             cloudinary_id: image_ids
             
-               
             })
     
         if(!credentials) return res.status(500).json({
@@ -63,11 +66,19 @@ const newCarReg = async(req, res, file)=>{
         })
 
        
-        //const result = await User.create(user)
+      
     } catch (error) {
         console.log(error)
     }
 }
+
+
+
+
+
+
+
+
 
 
 const getAllCarCredentials = async(req, res, next)=>{
@@ -163,6 +174,7 @@ const editCredentials = async (req, res) => {
     //   const filePath5= path.resolve(fileName5)
     //   const filePath6= path.resolve(fileName6)
 
+<<<<<<< HEAD
       const pathArrr = [fileName,fileName2,fileName3,fileName4,fileName5,fileName6]
 
     
@@ -170,6 +182,15 @@ const editCredentials = async (req, res) => {
     //   pathArrr.map(arr=>{
     //      fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
     //         if (err) {
+=======
+      const pathArr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
+
+    
+    
+      pathArr.map(arr=>{
+         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+            if (err) {
+>>>>>>> Kelenna
 
     //             return next(CustomErrorHandler.serverError(err.message));
     //         }
@@ -267,6 +288,34 @@ cloud_img_id.map(imgId=>{
 }
     let file = await newCar.findByIdAndRemove(id);
 
+<<<<<<< HEAD
+=======
+      const fileName = file.owner_passport
+      
+      const fileName2 = file.attestation_letter_image
+      const fileName3 = file.purchase_receipt_image
+      const fileName4 = file.delivery_note_image
+      const fileName5 = file.proof_of_ownership_image
+      const fileName6 = file.driver_license_image
+
+
+      const filePath= path.resolve(fileName)
+      const filePath2= path.resolve(fileName2)
+      const filePath3= path.resolve(fileName3)
+      const filePath4= path.resolve(fileName4)
+      const filePath5= path.resolve(fileName5)
+      const filePath6= path.resolve(fileName6)
+      const pathArr = [filePath,filePath2,filePath3,filePath4,filePath5,filePath6]
+    
+      pathArr.map(arr=>{
+         fs.unlinkSync(arr,  (err) => { //rootfolder/upload/filename
+            if (err) {
+
+                return next(CustomErrorHandler.serverError(err.message));
+            }
+        });
+      })
+>>>>>>> Kelenna
      
     
       // Find user by id

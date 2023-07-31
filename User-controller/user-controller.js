@@ -61,7 +61,7 @@ const createUser = async(req, res, next)=>{
         const hashedPassword = await bcrypt.hash(password, 10)
          const repeatPassword = await bcrypt.hash(repeat_password, 10)
          if(repeat_password !== password){
-            return res.status(400).json({message: 'password must be thesame'})
+            return res.status(400).json({message: 'password must be the same'})
          }
 
 
@@ -227,7 +227,7 @@ const loginUser = async(req,res)=>{
             process.env.ACCESS_TOKEN_SECRET,
             {expiresIn: "300m"}
             )
-            res.status(200).json({
+            res.status(200).header("auth-token", accessToken).json({
                 message: 'login successful',
                 accessToken: accessToken
             })

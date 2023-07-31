@@ -9,8 +9,8 @@ const path = require('path');
 const connectDb = require("./models/db");
 const Image = require('./models/file-schema')
 const fileRouter = require('./file.routes/file-route')
-const userRouter = require('./user-routs/users')
-const oldcarfileRouter = require('./user-routs/old-car-routes')
+const userRouter = require('./user-routes/users')
+const oldcarfileRouter = require('./user-routes/old-car-routes')
 
 
 global.__basedir = __dirname;
@@ -31,7 +31,7 @@ require('./file.routes/index.routes')
 //documentation_link = 'https://documenter.getpostman.com/view/28308145/2s946h9CcX'
 
 app.use(bodyParser.json());
-// connectDb()
+
 
 app.use(express.urlencoded({extended: true}))
 
@@ -55,24 +55,12 @@ app.use('/', oldcarfileRouter)
 // initRoutes(app);
 
 
-let port = 8080;
+const port = 3000;
 app.listen(port, () => {
+  port,
   console.log(`Running at localhost:${port}`);
 });
 
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(
-//       null,
-//       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//     );
-//   },
-// });
-// const upload = multer({ storage: storage });
 
 
 // app.post("/uploadPhoto", upload.single("myImage"), (req, res) => {

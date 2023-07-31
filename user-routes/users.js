@@ -8,8 +8,6 @@ const ownerProfile = require('../User-controller/owner-info-controller')
 const oldCommercialCarController = require('../User-controller/old-comm-car-controller')
 const oldPrivateCarController = require('../User-controller/old-private-car-controller')
 const newCarController = require('../User-controller/new-car-controller')
-//const myUploads = require('../middleware/myUploads')
-//const uploadmmobile = require('../middleware/myUploads')
 const uploadFile = require('../middleware/upload')
 const uploader = require('../middleware/uploader')
 
@@ -54,7 +52,18 @@ Router.delete('/delPrivateDoc/:id',validateToken, oldPrivateCarController.delete
 
 
 
+<<<<<<< HEAD:user-routs/users.js
 Router.post('/regNewCar',validateToken, uploader.array('image'), userService.newCar)
+=======
+Router.post('/regNewCar',validateToken, uploadFile.fields([
+    {name:'owner_passport'},
+    {name:'attestation_letter_image'},
+    {name:'purchase_receipt_image'},
+    {name:'delivery_note_image'},
+    {name:'proof_of_ownership_image'},
+    {name:'driver_license_image'}
+]), userService.newCar)
+>>>>>>> Kelenna:user-routes/users.js
 Router.get('/getSingleNewCar/:id',validateToken, newCarController.getSingleCarCredentials)
 Router.put('/editNewCar/:id',validateToken,uploader.array('image'), userService.editNewCar)
 Router.delete('/delNewCar/:id',validateToken, newCarController.deleteCredential)
