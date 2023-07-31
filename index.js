@@ -11,7 +11,7 @@ const Image = require('./models/file-schema')
 const fileRouter = require('./file.routes/file-route')
 const userRouter = require('./user-routes/users')
 const oldcarfileRouter = require('./user-routes/old-car-routes')
-
+const dotenv = require("dotenv")
 
 global.__basedir = __dirname;
 
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 
 app.use(express.urlencoded({extended: true}))
-
+dotenv.config()
 connectDb()
 
 // var corsOptions = {
