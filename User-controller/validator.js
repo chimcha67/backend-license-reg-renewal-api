@@ -25,8 +25,8 @@ const profileSchema = Joi.object({
     first_name: Joi.string().required(),
     last_name: Joi.string().required(),
     identity_number: Joi.number().min(10).required(),
+    identity_card: Joi.string(),
     date_of_birth: Joi.string().required(),
-    email: Joi.string().email().required(),
     gender: Joi.string().valid('M','F').required(),
     address:Joi.string().min(8).required()
 
@@ -38,7 +38,7 @@ const editProfileSchema = Joi.object({
     last_name: Joi.string().required(),
     identity_number: Joi.number().min(10).required(),
     date_of_birth: Joi.string().required(),
-    email: Joi.string().email().required(),
+    identity_card: Joi.string(),
     gender: Joi.string().valid('M','F').required(),
     address:Joi.string().min(8).required()
 
