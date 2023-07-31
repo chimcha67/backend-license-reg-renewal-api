@@ -5,7 +5,7 @@ require('dotenv')
 // const strt = 'mongodb://127.0.0.1:27017/License-reg-project'
  const connectDb = async()=>{
     try {  
-      const connect =  await mongoose.connect(process.env.MONGO_URL, {
+      const connect =  await mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true
       })
