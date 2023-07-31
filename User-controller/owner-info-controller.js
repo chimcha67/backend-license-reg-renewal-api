@@ -41,7 +41,6 @@ const createProfile = async(req, res, next)=>{
                 first_name: first_name,
                 last_name:last_name,
                 date_of_birth: date_of_birth,
-                email: email,
                 gender: gender,
                 address:address,
                 cloudinary_id:result.public_id
@@ -142,21 +141,12 @@ const updateUserProfile = async(req, res, next)=>{
         // Upload new image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
 
-<<<<<<< HEAD
     if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
         return res.status(403).json({
             message: 'user cannot edit another users profile'
         })
     }
     const { first_name,last_name,identity_number,dob,state, local_government, age, email, gender, address}= req.body
-=======
-    // if(JSON.stringify(userProfile.user_id) !== JSON.stringify(req.user.id)){
-    //     return res.status(403).json({
-    //         message: 'user cannot edit another users profile'
-    //     })
-    // }
-    const { first_name,last_name,identity_number,date_of_birth,state, local_government, age, email, gender, address}= req.body
->>>>>>> Kelenna
 
     const newProfile = {
         //user_id:req.user.id,

@@ -2,12 +2,8 @@ const oldPrivateCar= require('../models/old-private-car-schema')
 const express = require('express')
  require("dotenv").config()
  const cloudinary = require('../controllers/cloudinary')
-<<<<<<< HEAD
  const path = require('path')
  const fs = require('fs')
-=======
-
->>>>>>> Kelenna
  //const emailValidator = require('deep-email-validator')
 
 const controller = express()
@@ -213,11 +209,7 @@ const newDoc = {
   
       const updateDoc = await oldPrivateCar.findByIdAndUpdate(
         id,
-<<<<<<< HEAD
         newDoc,
-=======
-        {licence_id:req.body.licence_id, roadworthiness_id:req.body.roadworthiness_id,vin:req.body.vin, image:filesPath},
->>>>>>> Kelenna
          {new:true}
       )
     console.log(req.file)
